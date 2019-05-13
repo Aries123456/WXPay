@@ -46,12 +46,19 @@
                 
                 //调起微信支付
                 PayReq* req             = [[PayReq alloc] init];
+                /** 商家向财付通申请的商家id */
                 req.partnerId           = [dict objectForKey:@"partnerid"];
+                /** 预支付订单 */
                 req.prepayId            = [dict objectForKey:@"prepayid"];
+                /** 随机串，防重发 */
                 req.nonceStr            = [dict objectForKey:@"noncestr"];
+                /** 时间戳，防重发 */
                 req.timeStamp           = stamp.intValue;
+                /** 商家根据财付通文档填写的数据和签名 */
                 req.package             = [dict objectForKey:@"package"];
+                /** 商家根据微信开放平台文档对数据做的签名 */
                 req.sign                = [dict objectForKey:@"sign"];
+                //发送请求到微信，等待微信返回onResp
                 [WXApi sendReq:req];
                 //日志输出
                 NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[dict objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
